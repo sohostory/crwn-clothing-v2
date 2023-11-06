@@ -102,7 +102,7 @@ export const createUserDocumentFromAuth = async (
     }
   }
 
-  return userDocRef;
+  return userSnapshop;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {

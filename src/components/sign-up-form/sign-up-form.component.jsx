@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
@@ -9,6 +10,7 @@ import {
 } from "../../utils/firebase/firebase.utils";
 
 import { SignUpContainer } from "./sign-up-form.styles";
+import { signUpStart } from "../../store/user/user.action";
 
 const defaultFormFields = {
   displayName: "",
@@ -20,12 +22,13 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+  const dispatch = useDispatch();
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
 
-  const handleCHange = (event) => {
+  const handleChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
@@ -39,12 +42,7 @@ const SignUpForm = () => {
     }
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      await createUserDocumentFromAuth(user, { displayName });
+      dispatch(signUpStart(email, password, displayName));
 
       resetFormFields();
     } catch (error) {
@@ -65,7 +63,7 @@ const SignUpForm = () => {
           label="Display Name"
           type="text"
           required
-          onChange={handleCHange}
+          onChange={handleChange}
           name="displayName"
           value={displayName}
         />
@@ -74,7 +72,7 @@ const SignUpForm = () => {
           label="Email"
           type="email"
           required
-          onChange={handleCHange}
+          onChange={handleChange}
           name="email"
           value={email}
         />
@@ -83,7 +81,7 @@ const SignUpForm = () => {
           label="Password"
           type="password"
           required
-          onChange={handleCHange}
+          onChange={handleChange}
           name="password"
           value={password}
         />
@@ -92,7 +90,7 @@ const SignUpForm = () => {
           label="Confirm Password"
           type="password"
           required
-          onChange={handleCHange}
+          onChange={handleChange}
           name="confirmPassword"
           value={confirmPassword}
         />
