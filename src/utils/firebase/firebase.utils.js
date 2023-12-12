@@ -83,8 +83,8 @@ export const createUserDocumentFromAuth = async (
   // console.log(userDocRef);
 
   const userSnapshop = await getDoc(userDocRef);
-  console.log(userSnapshop);
-  console.log(userSnapshop.exists());
+  // console.log(userSnapshop);
+  // console.log(userSnapshop.exists());
 
   if (!userSnapshop.exists()) {
     const { displayName, email } = userAuth;
